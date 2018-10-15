@@ -15,7 +15,7 @@ app.use(express.json({
 
 app.get('/',(req, res)=>{
     res.header('Access-Control-Allow-Origin','*');
-    res.json({data:"you must send a request to https://camkirk-studentgroups.herokuapp.com/api/<firstname>/<week_number>"});
+    res.json({data:"you must send a GET request to https://camkirk-studentgroups.herokuapp.com/api/<firstname>/<week_number>"});
 });
 
 app.get('/api/:name/:week', (req, res)  => {
