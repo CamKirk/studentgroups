@@ -9,20 +9,24 @@ const app = express();
 
 const db = mongoose.connect(process.env.MONGODB_URI);
 app.use(express.json());
-function errorHandler (err, req, res, next) {
-    res.status(500)
-    res.send('error', { error: err })
-  }
-app.use(errorHandler);
+// function errorHandler (err, req, res, next) {
+//     res.status(500).send('error', { error: err })
+//   }
+// app.use(errorHandler);
 app.get('/',(req, res)=>{
     res.header('Access-Control-Allow-Origin','*');
     res.json({data:"hello world"});
 });
 
-app.get('/api/:name/:week', (req, res,next)  => {
-    let name = req.params.name.toLowerCase();
-    let week = parseInt(req.params.week);
+app.post('/api', (req, res)  => {
+    // let name = req.params.name.toLowerCase();
+    // let week = parseInt(req.params.week);
 
+    let name = req.body.name;
+    let week = parseInt(req.body.week);
+    console.log(req.body);
+    
+    
     if (!week||isNaN(week)){
         res.status(400).json({err:("you must send a week number")});
     }else {
