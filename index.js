@@ -27,7 +27,7 @@ app.get('/api/:name/:week', (req, res, next)  => {
         if (docs === null) res.json({err:"name not found"} );
         else{
             console.log(docs);
-            res.header('Access-Control-Allow-Origin','*');
+            res.setHeader('Access-Control-Allow-Origin','*');
             res.json(docs);
         }
     });
