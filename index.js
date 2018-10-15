@@ -1,27 +1,28 @@
 const express = require('express');
 const graphql = require('graphql');
 const graphqlHTTP = require('express-graphql');
-const mongojs = require('mongojs');
+const mongoose = require('mongoose');
+const model = require('./models');
 
 require('dotenv').config();
-
 const app = express();
 
-const db = mongojs(process.env.MONGODB_URI);
+const db = mongoose.connect(process.env.MONGODB_URI);
 
-const student = db.collection('students');
 
-app.get('/api/:name', (req, res) => {
+app.get('/api/:name/:week', (req, res, next)  => {
     let name = req.params.name;
-    name = name.toLowerCase().split('+');
-    let queryObj = {
-        fName: name[0],
-        lName: name[1]
-    };
-    student.findOne(queryObj, (err, docs) => {
+    let week = parseInt(req.params.week);
+    if (!week||isNaN(week)){
+        res.send(200,new Error("you must send a week"))
+    }
+
+    model.Group.find({members:name, week:week}, (err, docs) => {
         if (err) res.send(err);
-        if (docs === null) res.json({ data: "name not found" });
-        res.send(docs);
+        if (docs === null) res.json({err:"name not found"} );
+        else{
+            res.send(docs);
+        }
     });
 });
 
