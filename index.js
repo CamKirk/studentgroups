@@ -22,12 +22,13 @@ app.post('/api', (req, res)  => {
     // let name = req.params.name.toLowerCase();
     // let week = parseInt(req.params.week);
 
-    let name = req.body.name;
-    let week = parseInt(req.body.week);
-    console.log(req.body);
+    let name = req.body.name||req.query.name;
+    let week = parseInt(req.body.week||req.query.week);
+    console.log(req);
     
     
     if (!week||isNaN(week)){
+        res.set('Access-Control-Allow-Origin', '*');
         res.status(400).json({err:("you must send a week number")});
     }else {
         model.Group.find({members:name, week:week}, (err, docs) => {
