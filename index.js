@@ -8,13 +8,14 @@ require('dotenv').config();
 const app = express();
 
 const db = mongoose.connect(process.env.MONGODB_URI);
+
 app.use(express.json({
     strict:true,
 }));
 
 app.get('/',(req, res)=>{
     res.header('Access-Control-Allow-Origin','*');
-    res.json({data:"hello world"});
+    res.json({data:"you must send a request to https://camkirk-studentgroups.herokuapp.com/api/<firstname>/<week_number>"});
 });
 
 app.get('/api/:name/:week', (req, res)  => {
@@ -23,24 +24,6 @@ app.get('/api/:name/:week', (req, res)  => {
     let week = parseInt(req.params.week);
     console.log(req.params);
     
-    sendStudentGroup(name, week, res);
-    
-    
-});
-
-
-app.post('/api', (req, res)  => {
-
-    let name = req.body.name||req.query.name;
-    let week = parseInt(req.body.week||req.query.week);
-    console.log(req.body||req.query);
-    
-
-    sendStudentGroup(name, week, res);
-    
-});
-
-function sendStudentGroup(name, week, res){
     if (!week||isNaN(week)){
         res.set('Access-Control-Allow-Origin', '*');
         res.status(400).json({err:("you must send a week number")});
@@ -55,7 +38,11 @@ function sendStudentGroup(name, week, res){
             }
         });
     }
-}
+    
+    
+});
+
+
 app.listen(process.env.PORT || 4000, () => {
     console.log("now listening");
 });
