@@ -8,11 +8,6 @@ require('dotenv').config();
 const app = express();
 
 const db = mongoose.connect(process.env.MONGODB_URI);
-app.use(express.static('public',{
-    setHeaders: function (res, path, stat) {
-        res.set('Access-Control-Allow-Origin', '*')
-      }
-}));
 app.use(express.json());
 
 app.get('/',(req, res)=>{
@@ -32,7 +27,7 @@ app.get('/api/:name/:week', (req, res, next)  => {
         if (docs === null) res.json({err:"name not found"} );
         else{
             console.log(docs);
-            res.header('')
+            res.header('Access-Control-Allow-Origin','*');
             res.json(docs);
         }
     });
