@@ -8,7 +8,7 @@ require('dotenv').config();
 const app = express();
 
 const db = mongoose.connect(process.env.MONGODB_URI);
-app.use(express.static({
+app.use(express.static('public',{
     setHeaders: function (res, path, stat) {
         res.set('Access-Control-Allow-Origin', '*')
       }
