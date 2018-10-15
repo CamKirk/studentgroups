@@ -24,7 +24,7 @@ app.post('/api', (req, res)  => {
 
     let name = req.body.name||req.query.name;
     let week = parseInt(req.body.week||req.query.week);
-    console.log(req);
+    console.log(req.body||req.query);
     
     
     if (!week||isNaN(week)){
