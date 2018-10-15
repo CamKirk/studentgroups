@@ -11,6 +11,7 @@ const db = mongoose.connect(process.env.MONGODB_URI);
 app.use(express.json());
 
 app.get('/',(req, res)=>{
+    res.header('Access-Control-Allow-Origin','*');
     res.json({data:"hello world"});
 });
 
@@ -27,7 +28,7 @@ app.get('/api/:name/:week', (req, res, next)  => {
         if (docs === null) res.json({err:"name not found"} );
         else{
             console.log(docs);
-            res.setHeader('Access-Control-Allow-Origin','*');
+            res.header('Access-Control-Allow-Origin','*');
             res.json(docs);
         }
     });
